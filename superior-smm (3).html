@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Superior SMM — Social growth, delivered instantly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F8FA;
+    --panel:#FFFFFF;
+    --ink:#101828;
+    --muted:#667085;
+    --line:#E4E7EC;
+    --indigo:#3654F4;
+    --indigo-dark:#233CC7;
+    --green:#12B76A;
+    --indigo-tint:#EEF1FF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-0.02em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+  img,svg{display:block;}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{outline:2px solid var(--indigo);outline-offset:3px;border-radius:4px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  /* HEADER */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(247,248,250,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 0;
+  }
+  .logo{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:700;}
+  .logo-mark{
+    width:30px;height:30px;border-radius:8px;
+    background:linear-gradient(135deg,var(--indigo),#6B7CFA);
+    display:flex;align-items:center;justify-content:center;
+    color:white;font-size:14px;font-weight:700;font-family:'Space Grotesk',sans-serif;
+    flex-shrink:0;
+  }
+  .nav-links{display:flex;gap:32px;font-size:14.5px;font-weight:500;color:var(--muted);}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-cta{
+    background:var(--ink);color:white;padding:10px 20px;border-radius:8px;
+    font-size:14.5px;font-weight:500;
+  }
+  .nav-cta:hover{background:var(--indigo-dark);}
+  .nav-mobile-hide{display:flex;}
+  @media (max-width:760px){ .nav-mobile-hide{display:none;} }
+
+  /* HERO */
+  .hero{padding:88px 0 64px;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--indigo-tint);color:var(--indigo-dark);
+    font-size:13px;font-weight:600;padding:6px 12px;border-radius:100px;
+    margin-bottom:24px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  .hero h1{
+    font-size:clamp(36px,5.5vw,58px);
+    line-height:1.05;
+    max-width:820px;
+  }
+  .hero h1 .accent{color:var(--indigo);}
+  .hero-sub{
+    max-width:520px;color:var(--muted);font-size:17px;margin-top:20px;
+  }
+  .hero-ctas{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--indigo);color:white;padding:14px 26px;border-radius:9px;
+    font-weight:600;font-size:15px;border:none;cursor:pointer;
+    transition:background 0.15s;
+  }
+  .btn-primary:hover{background:var(--indigo-dark);}
+  .btn-secondary{
+    background:transparent;color:var(--ink);padding:14px 26px;border-radius:9px;
+    font-weight:600;font-size:15px;border:1px solid var(--line);cursor:pointer;
+    transition:border-color 0.15s;
+  }
+  .btn-secondary:hover{border-color:var(--ink);}
+
+  /* LIVE TICKER — signature element */
+  .ticker-panel{
+    margin-top:56px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 1px 2px rgba(16,24,40,0.04), 0 8px 24px rgba(16,24,40,0.03);
+  }
+  .ticker-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px;border-bottom:1px solid var(--line);
+  }
+  .ticker-head .label{font-size:13px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:8px;}
+  .live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1.6s infinite;}
+  .ticker-head .stat{font-size:13px;color:var(--muted);}
+  .ticker-body{height:190px;overflow:hidden;position:relative;}
+  .ticker-body::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(to bottom, transparent 70%, var(--panel) 100%);
+    pointer-events:none;
+  }
+  .ticker-track{
+    display:flex;flex-direction:column;
+    animation:scrollUp 14s linear infinite;
+  }
+  @keyframes scrollUp{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(-50%);}
+  }
+  .ticker-row{
+    display:flex;align-items:center;gap:12px;
+    padding:11px 20px;font-size:13.5px;border-bottom:1px solid var(--line);
+  }
+  .ticker-row .plat{
+    width:26px;height:26px;border-radius:7px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700;color:white;font-family:'Space Grotesk',sans-serif;
+  }
+  .ticker-row .txt{color:var(--ink);}
+  .ticker-row .txt b{font-weight:600;}
+  .ticker-row .time{margin-left:auto;color:var(--muted);font-size:12px;}
+  .p-ig{background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af);}
+  .p-tt{background:#000;}
+  .p-yt{background:#FF0000;}
+  .p-x{background:#000;}
+  .p-tg{background:#26A5E4;}
+  .p-sp{background:#1DB954;}
+
+  /* TRUST STRIP */
+  .trust{
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    background:var(--panel);
+  }
+  .trust-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    padding:32px 0;
+  }
+  .trust-item{text-align:center;padding:0 12px;border-right:1px solid var(--line);}
+  .trust-item:last-child{border-right:none;}
+  .trust-num{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;}
+  .trust-label{font-size:13px;color:var(--muted);margin-top:4px;}
+  @media (max-width:700px){
+    .trust-grid{grid-template-columns:repeat(2,1fr);row-gap:24px;}
+    .trust-item:nth-child(2){border-right:none;}
+  }
+
+  section{padding:88px 0;}
+  .section-head{max-width:600px;margin-bottom:48px;}
+  .section-head .eyebrow-txt{color:var(--indigo);font-weight:600;font-size:13.5px;letter-spacing:0.02em;text-transform:uppercase;margin-bottom:10px;display:block;}
+  .section-head h2{font-size:clamp(26px,3.5vw,36px);}
+  .section-head p{color:var(--muted);margin-top:12px;font-size:16px;}
+
+  /* SERVICES */
+  .services-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  }
+  @media (max-width:900px){.services-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:560px){.services-grid{grid-template-columns:1fr;}}
+  .service-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:24px;transition:border-color 0.15s, transform 0.15s;
+  }
+  .service-card:hover{border-color:var(--indigo);transform:translateY(-2px);}
+  .service-icon{
+    width:40px;height:40px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    color:white;font-weight:700;font-size:14px;font-family:'Space Grotesk',sans-serif;
+    margin-bottom:16px;
+  }
+  .service-card h3{font-size:17px;margin-bottom:6px;}
+  .service-card .desc{color:var(--muted);font-size:14px;margin-bottom:14px;}
+  .service-price{
+    display:flex;align-items:baseline;gap:6px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .service-price .from{font-size:12px;color:var(--muted);}
+  .service-price .val{font-size:18px;font-weight:500;color:var(--ink);}
+
+  /* HOW IT WORKS */
+  .steps{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  }
+  @media (max-width:800px){.steps{grid-template-columns:1fr;}}
+  .step{position:relative;padding-left:0;}
+  .step-num{
+    font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;
+    color:var(--indigo);background:var(--indigo-tint);
+    width:34px;height:34px;border-radius:9px;
+    display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+  }
+  .step h3{font-size:18px;margin-bottom:8px;}
+  .step p{color:var(--muted);font-size:14.5px;}
+  .step-connector{
+    display:none;
+  }
+  @media (min-width:801px){
+    .steps{position:relative;}
+  }
+
+  /* WHY US */
+  .why-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  }
+  @media (max-width:800px){.why-grid{grid-template-columns:1fr;}}
+  .why-item{background:var(--panel);padding:32px;}
+  .why-item h3{font-size:16px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+  .why-item p{color:var(--muted);font-size:14px;}
+  .why-icon{color:var(--green);font-size:18px;}
+
+  /* CTA BANNER */
+  .cta-banner{
+    background:var(--ink);border-radius:20px;
+    padding:56px 40px;text-align:center;position:relative;overflow:hidden;
+  }
+  .cta-banner::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at 30% 20%, rgba(54,84,244,0.35), transparent 60%);
+  }
+  .cta-banner h2{color:white;font-size:clamp(24px,3.5vw,34px);position:relative;}
+  .cta-banner p{color:#9AA3C0;margin-top:12px;position:relative;font-size:16px;}
+  .cta-banner .hero-ctas{justify-content:center;position:relative;margin-top:28px;}
+  .cta-banner .btn-secondary{border-color:#3A415C;color:white;}
+  .cta-banner .btn-secondary:hover{border-color:white;}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);padding:48px 0 32px;}
+  .footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:32px;margin-bottom:32px;}
+  .footer-cols{display:flex;gap:64px;flex-wrap:wrap;}
+  .footer-col h4{font-size:13px;color:var(--muted);margin-bottom:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.03em;}
+  .footer-col a{display:block;font-size:14.5px;color:var(--ink);margin-bottom:10px;}
+  .footer-col a:hover{color:var(--indigo);}
+  .footer-bottom{
+    border-top:1px solid var(--line);padding-top:24px;
+    display:flex;justify-content:space-between;color:var(--muted);font-size:13px;flex-wrap:wrap;gap:12px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo"><span class="logo-mark">S</span>Superior SMM</div>
+    <nav class="nav-links nav-mobile-hide">
+      <a href="#services">Services</a>
+      <a href="#how">How it works</a>
+      <a href="#why">Why us</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="#" class="nav-cta">Create account</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>4,200+ orders delivered today</div>
+    <h1>Social proof, <span class="accent">delivered</span> at the speed of a refresh.</h1>
+    <p class="hero-sub">Superior SMM is the reseller panel for followers, views, likes, and engagement across every major platform — priced for agencies, built for speed.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary">Create free account</button>
+      <a href="#services"><button class="btn-secondary">Browse services</button></a>
+    </div>
+
+    <div class="ticker-panel">
+      <div class="ticker-head">
+        <span class="label"><span class="live-dot"></span>Live order feed</span>
+        <span class="stat mono">avg. start time: 8 min</span>
+      </div>
+      <div class="ticker-body">
+        <div class="ticker-track" id="tickerTrack"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="wrap trust-grid">
+    <div class="trust-item">
+      <div class="trust-num">6.1M+</div>
+      <div class="trust-label">Orders completed</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-num">99.8%</div>
+      <div class="trust-label">Delivery success rate</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-num">24/7</div>
+      <div class="trust-label">Live support</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-num">190+</div>
+      <div class="trust-label">Services listed</div>
+    </div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow-txt">Services</span>
+      <h2>Every platform, one dashboard.</h2>
+      <p>Order individually or connect through our API to resell at your own pricing.</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="service-icon" style="background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af)">IG</div>
+        <h3>Instagram</h3>
+        <div class="desc">Followers, likes, reel views, comments</div>
+        <div class="service-price"><span class="from">from</span><span class="val mono">$0.72</span><span class="from">/ 1,000</span></div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon" style="background:#000">TT</div>
+        <h3>TikTok</h3>
+        <div class="desc">Followers, likes, views, shares</div>
+        <div class="service-price"><span class="from">from</span><span class="val mono">$0.55</span><span class="from">/ 1,000</span></div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon" style="background:#FF0000">YT</div>
+        <h3>YouTube</h3>
+        <div class="desc">Subscribers, watch time, views, likes</div>
+        <div class="service-price"><span class="from">from</span><span class="val mono">$1.10</span><span class="from">/ 1,000</span></div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon" style="background:#000">X</div>
+        <h3>X (Twitter)</h3>
+        <div class="desc">Followers, reposts, likes, impressions</div>
+        <div class="service-price"><span class="from">from</span><span class="val mono">$0.95</span><span class="from">/ 1,000</span></div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon" style="background:#26A5E4">TG</div>
+        <h3>Telegram</h3>
+        <div class="desc">Channel members, post views, reactions</div>
+        <div class="service-price"><span class="from">from</span><span class="val mono">$0.40</span><span class="from">/ 1,000</span></div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon" style="background:#1DB954">SP</div>
+        <h3>Spotify</h3>
+        <div class="desc">Plays, monthly listeners, playlist followers</div>
+        <div class="service-price"><span class="from">from</span><span class="val mono">$1.35</span><span class="from">/ 1,000</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="how" style="background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow-txt">Process</span>
+      <h2>Three steps, no waiting on a rep.</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Pick a service</h3>
+        <p>Search by platform or browse the catalog. Every listing shows speed, minimum, and quality tier upfront.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Paste your link</h3>
+        <p>Drop in the profile, post, or video URL and set your quantity. No password or account access required.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Watch it fill</h3>
+        <p>Track progress from the order dashboard in real time, start to finish, with automatic refill if anything drops.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow-txt">Why Superior SMM</span>
+      <h2>Built for people who order every day.</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-item">
+        <h3><span class="why-icon">→</span>Full API access</h3>
+        <p>Automate ordering, balance checks, and status polling for your own storefront in minutes.</p>
+      </div>
+      <div class="why-item">
+        <h3><span class="why-icon">→</span>Reseller pricing</h3>
+        <p>Rates drop automatically as your monthly volume grows — no negotiation required.</p>
+      </div>
+      <div class="why-item">
+        <h3><span class="why-icon">→</span>Refill guarantee</h3>
+        <p>Drops within the covered window are topped up automatically, free of charge.</p>
+      </div>
+      <div class="why-item">
+        <h3><span class="why-icon">→</span>Instant start</h3>
+        <p>Most orders begin processing in under 10 minutes, day or night.</p>
+      </div>
+      <div class="why-item">
+        <h3><span class="why-icon">→</span>Secure payments</h3>
+        <p>Card, crypto, and balance top-ups, all processed through PCI-compliant providers.</p>
+      </div>
+      <div class="why-item">
+        <h3><span class="why-icon">→</span>Human support</h3>
+        <p>Live chat staffed around the clock — no ticket queues, no bots pretending otherwise.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap" style="max-width:760px;">
+    <div class="section-head" style="max-width:none;">
+      <span class="eyebrow-txt">FAQ</span>
+      <h2>Good to know</h2>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;">
+      <div style="background:var(--panel);padding:22px 24px;">
+        <h3 style="font-size:15.5px;margin-bottom:6px;">Do you need my account password?</h3>
+        <p style="color:var(--muted);font-size:14px;">Never. Every service runs on the public link or username you provide — no login access is requested at any point.</p>
+      </div>
+      <div style="background:var(--panel);padding:22px 24px;">
+        <h3 style="font-size:15.5px;margin-bottom:6px;">What if my profile is set to private?</h3>
+        <p style="color:var(--muted);font-size:14px;">Most services require a public profile or post to deliver correctly. Support can confirm compatibility before you order.</p>
+      </div>
+      <div style="background:var(--panel);padding:22px 24px;">
+        <h3 style="font-size:15.5px;margin-bottom:6px;">Can I cancel an order in progress?</h3>
+        <p style="color:var(--muted);font-size:14px;">Yes — partial refunds are issued automatically for the undelivered portion of any cancelled order.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cta-banner">
+      <h2>Your first order starts in under 10 minutes.</h2>
+      <p>Create an account, load your balance, and place your first order today.</p>
+      <div class="hero-ctas">
+        <button class="btn-primary">Create free account</button>
+        <button class="btn-secondary">Talk to support</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="logo"><span class="logo-mark">S</span>Superior SMM</div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <a href="#services">Services</a>
+          <a href="#how">How it works</a>
+          <a href="#why">Why us</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="#">API docs</a>
+          <a href="#">Affiliate program</a>
+          <a href="#">Support</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="#">Terms of service</a>
+          <a href="#">Privacy policy</a>
+          <a href="#">Refund policy</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Superior SMM. All rights reserved.</span>
+      <span>Not affiliated with any social media platform.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Live order ticker — signature element
+  const platforms = [
+    {code:'IG', cls:'p-ig', name:'Instagram Followers'},
+    {code:'TT', cls:'p-tt', name:'TikTok Views'},
+    {code:'YT', cls:'p-yt', name:'YouTube Subscribers'},
+    {code:'X',  cls:'p-x',  name:'X Reposts'},
+    {code:'TG', cls:'p-tg', name:'Telegram Members'},
+    {code:'SP', cls:'p-sp', name:'Spotify Plays'},
+    {code:'IG', cls:'p-ig', name:'Instagram Reel Views'},
+    {code:'TT', cls:'p-tt', name:'TikTok Followers'},
+  ];
+
+  function maskId(){
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let s = '';
+    for(let i=0;i<4;i++) s += chars[Math.floor(Math.random()*chars.length)];
+    return '@' + s + '••••';
+  }
+
+  function randQty(){
+    const opts = [250,500,1000,2500,5000,10000];
+    return opts[Math.floor(Math.random()*opts.length)].toLocaleString();
+  }
+
+  function randTime(){
+    const opts = ['just now','3s ago','9s ago','14s ago','22s ago','41s ago'];
+    return opts[Math.floor(Math.random()*opts.length)];
+  }
+
+  function buildRow(p){
+    const row = document.createElement('div');
+    row.className = 'ticker-row';
+    row.innerHTML = `
+      <div class="plat ${p.cls}">${p.code}</div>
+      <div class="txt">+<b>${randQty()}</b> ${p.name} delivered to <b>${maskId()}</b></div>
+      <div class="time mono">${randTime()}</div>
+    `;
+    return row;
+  }
+
+  const track = document.getElementById('tickerTrack');
+  // Build enough rows, then duplicate the set once for seamless loop
+  const rows = [];
+  for(let i=0;i<10;i++){
+    rows.push(platforms[Math.floor(Math.random()*platforms.length)]);
+  }
+  rows.concat(rows).forEach(p => track.appendChild(buildRow(p)));
+</script>
+
+</body>
+</html>
